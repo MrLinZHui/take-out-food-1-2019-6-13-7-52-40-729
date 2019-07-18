@@ -1,7 +1,6 @@
 var promotions = loadPromotions();
 var items =loadAllItems();
 var PromotionsItem = promotions[1].items;
-
 //actual time:15min
 function bestCharge(selectedItems) {
   let bestChargeStr = "";
@@ -9,7 +8,6 @@ function bestCharge(selectedItems) {
   bestChargeStr = countPayandPrintCharge(ItemsObj);
   return bestChargeStr;
 }
-
 //actual time:5min
 function countOrderSimple(selectedItems){
 return selectedItems.reduce((itemObj,order) =>{
@@ -20,7 +18,6 @@ return selectedItems.reduce((itemObj,order) =>{
 },{});
 return ItemsObj;
 }
-
 //actual time:20min
 function countPayandPrintCharge(ItemsObj){
   let bestChargeStr =`============= 订餐明细 =============\n${ printOrderSimple(ItemsObj)}-----------------------------------\n`;
@@ -33,7 +30,7 @@ function printPromotion(payArray,bestChargeStr){
   let payPromotions = payArray[2];
   let payCompare = payArray[1];
   if(payAll == payPromotions && payAll == payCompare){
-  bestChargeStr =bestChargeStr;
+    bestChargeStr =bestChargeStr;
   }
   else if(payCompare>payPromotions){
   bestChargeStr =bestChargeStr+ `使用优惠:\n指定菜品半价(黄焖鸡，凉皮)，省${payAll-payPromotions}元
@@ -54,14 +51,14 @@ function PayOrderAll(ItemsObj){
   let payAll = 0;
   let payPromotions = 0;
   let payCompare = 0;
-    for(let key in ItemsObj){
-        items.filter(item =>{
-        if(key===item.id){
-          payAll += item.price * ItemsObj[key];
-          payPromotions += PromotionsItem.indexOf(key)!=-1?(item.price * ItemsObj[key])/2:item.price * ItemsObj[key];
-        }
-      });
-  }
+  Object.keys(ItemsObj).forEach(key => {
+    items.filter(item =>{
+      if(key===item.id){
+        payAll += item.price * ItemsObj[key];
+        payPromotions += PromotionsItem.indexOf(key)!=-1?(item.price * ItemsObj[key])/2:item.price * ItemsObj[key];
+      }
+    })
+  });
   payCompare = ((payAll >= 30 )? payAll - 6:payAll);
   payArray.push(payAll);
   payArray.push(payCompare);
@@ -71,12 +68,12 @@ function PayOrderAll(ItemsObj){
 //actual time:5min
 function printOrderSimple(ItemsObj){
   let bestChargeStr1 = "";
-  for(let key in ItemsObj){
+  Object.keys(ItemsObj).forEach(key => {
     items.filter(item =>{
       if(key ===item.id){
         bestChargeStr1 +=`${item.name} x${ItemsObj[key]} = ${item.price*ItemsObj[key]}元\n`
       }
     });
-  }
+  });
   return bestChargeStr1;
 }
