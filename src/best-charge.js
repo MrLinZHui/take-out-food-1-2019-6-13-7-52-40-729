@@ -24,7 +24,6 @@ function countPayandPrintCharge(ItemsObj){
   let payArray = PayOrderAll(ItemsObj);
   return printPromotion(payArray,bestChargeStr);
 }
-
 function printPromotion(payArray,bestChargeStr){
   let payAll = payArray[0];
   let payPromotions = payArray[2];
